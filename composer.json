@@ -1,0 +1,25 @@
+{
+    "name": "jsonfeed/jsonfeed",
+    "description": "PHP JSONFeed library",
+    "type": "library",
+    "keywords": ["feed", "json", "jsonfeed"],
+    "homepage": "http://jsonfeed.org",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jérémy DECOOL",
+            "email": "contact@jdecool.fr"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.0|^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "JDecool\\JsonFeed\\": "src"
+        }
+    }
+}
