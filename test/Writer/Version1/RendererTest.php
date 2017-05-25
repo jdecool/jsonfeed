@@ -66,7 +66,7 @@ JSON;
         $item->setContentHtml('Chris has worked at <a href="http://adobe.com/">Adobe</a> and as a founder of Rogue Sheep, which won an Apple Design Award for Postage. Chris’s new company is Aged & Distilled with Guy English — which shipped <a href="http://aged-and-distilled.com/napkin/">Napkin</a>, a Mac app for visual collaboration. Chris is also the co-host of The Record. He lives on <a href="http://www.ci.bainbridge-isl.wa.us/">Bainbridge Island</a>, a quick ferry ride from Seattle.');
         $item->setContentText('Chris has worked at Adobe and as a founder of Rogue Sheep, which won an Apple Design Award for Postage. Chris’s new company is Aged & Distilled with Guy English — which shipped Napkin, a Mac app for visual collaboration. Chris is also the co-host of The Record. He lives on Bainbridge Island, a quick ferry ride from Seattle.');
         $item->setSummary('Brent interviews Chris Parrish, co-host of The Record and one-half of Aged & Distilled.');
-        $item->setDatePublished(new DateTime('2014-05-09 14:04:00', new DateTimeZone('-0700')));
+        $item->setDatePublished(new DateTime('2014-05-09 14:04:00', new DateTimeZone('Etc/GMT+7')));
         $item->addAttachment($attachment);
 
         $feed = new Feed('The Record');
@@ -116,7 +116,7 @@ JSON;
 
         $item = new Item('2347259');
         $item->setUrl('https://example.org/2347259');
-        $item->setDatePublished(new DateTime('2016-02-09 14:22:00', new DateTimeZone('+0200')));
+        $item->setDatePublished(new DateTime('2016-02-09 14:22:00', new DateTimeZone('Etc/GMT-2')));
         $item->setContentText('Cats are neat. https://example.org/cats');
 
         $feed = new Feed('Brent Simmons’s Microblog');
