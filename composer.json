@@ -1,5 +1,5 @@
 {
-    "name": "jsonfeed/jsonfeed",
+    "name": "jdecool/jsonfeed",
     "description": "PHP JSONFeed library",
     "type": "library",
     "keywords": ["feed", "json", "jsonfeed"],
