@@ -3,6 +3,7 @@
 namespace JDecool\Test\JsonFeed\Writer;
 
 use JDecool\JsonFeed\Feed;
+use JDecool\JsonFeed\Versions;
 use JDecool\JsonFeed\Writer\RendererFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +21,7 @@ class RendererFactoryTest extends TestCase
     {
         $factory = new RendererFactory();
 
-        $renderer = $factory->createRenderer(RendererFactory::VERSION_1);
+        $renderer = $factory->createRenderer(Versions::VERSION_1);
         $this->assertInstanceOf('JDecool\JsonFeed\Writer\Version1\Renderer', $renderer);
     }
 
