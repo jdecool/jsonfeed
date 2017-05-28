@@ -25,31 +25,31 @@ class Renderer implements RendererInterface
         ];
 
         if ($homepageUrl = $feed->getHomepageUrl()) {
-            $result['home_page_url'] = $feed->getHomepageUrl();
+            $result['home_page_url'] = $homepageUrl;
         }
 
         if ($feedUrl = $feed->getFeedUrl()) {
-            $result['feed_url'] = $feed->getFeedUrl();
+            $result['feed_url'] = $feedUrl;
         }
 
         if ($description = $feed->getDescription()) {
-            $result['description'] = $feed->getDescription();
+            $result['description'] = $description;
         }
 
         if ($userComment = $feed->getUserComment()) {
-            $result['user_comment'] = $feed->getUserComment();
+            $result['user_comment'] = $userComment;
         }
 
         if ($nextUrl = $feed->getNextUrl()) {
-            $result['next_url'] = $feed->getNextUrl();
+            $result['next_url'] = $nextUrl;
         }
 
         if ($icon = $feed->getIcon()) {
-            $result['icon'] = $feed->getIcon();
+            $result['icon'] = $icon;
         }
 
         if ($favicon = $feed->getFavicon()) {
-            $result['favicon'] = $feed->getFavicon();
+            $result['favicon'] = $favicon;
         }
 
         if ($author = $feed->getAuthor()) {
@@ -61,10 +61,9 @@ class Renderer implements RendererInterface
         }
 
         if ($items = $feed->getItems()) {
-            $result['items'] = [];
-            foreach ($items as $item) {
-                $result['items'][] = $this->renderItem($item);
-            }
+            $result['items'] = array_map(function(Item $item) {
+                return $this->renderItem($item);
+            }, $items);
         }
 
         if ($hubs = $feed->getHubs()) {
