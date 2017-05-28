@@ -3,11 +3,11 @@
 namespace JDecool\JsonFeed\Writer;
 
 use InvalidArgumentException;
+use JDecool\JsonFeed\Versions;
 
 class RendererFactory
 {
-    const VERSION_1 = '1.0';
-
+    /** @var array */
     private $renderers;
 
     /**
@@ -24,14 +24,14 @@ class RendererFactory
      * @param string $version
      * @return Version1\Renderer
      */
-    public function createRenderer($version = self::VERSION_1)
+    public function createRenderer($version = Versions::VERSION_1)
     {
         if (isset($this->renderers[$version])) {
             return $this->renderers[$version];
         }
 
         switch ($version) {
-            case self::VERSION_1:
+            case Versions::VERSION_1:
                 return new Version1\Renderer();
         }
 

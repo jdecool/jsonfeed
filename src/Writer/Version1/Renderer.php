@@ -8,19 +8,18 @@ use JDecool\JsonFeed\Author;
 use JDecool\JsonFeed\Feed;
 use JDecool\JsonFeed\Hub;
 use JDecool\JsonFeed\Item;
+use JDecool\JsonFeed\Versions;
 use JDecool\JsonFeed\Writer\RendererInterface;
 
 class Renderer implements RendererInterface
 {
-    const VERSION_URL = 'https://jsonfeed.org/version/1';
-
     /**
      * {@inheritdoc}
      */
     public function render(Feed $feed)
     {
         $result = [
-            'version' => self::VERSION_URL,
+            'version' => Versions::VERSION_1,
             'title' => $feed->getTitle(),
         ];
 
