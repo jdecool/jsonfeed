@@ -2,6 +2,7 @@
 
 namespace JDecool\Test\JsonFeed\Writer;
 
+use JDecool\JsonFeed\Feed;
 use JDecool\JsonFeed\Writer\RendererFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -31,5 +32,19 @@ class RendererFactoryTest extends TestCase
     {
         $factory = new RendererFactory();
         $factory->createRenderer('foo');
+    }
+
+    public function testRegisterCustomProvider()
+    {
+        $customRenderer =  $this->getMockBuilder('JDecool\JsonFeed\Writer\RendererInterface')->getMock();
+        $customRenderer->method('render')
+            ->willReturn('custom render')
+        ;
+
+        $factory = new RendererFactory();
+        $factory->registerRenderer('custom', $customRenderer);
+
+        $renderer = $factory->createRenderer('custom');
+        $this->assertEquals('custom render', $renderer->render(new Feed('My feed')));
     }
 }
