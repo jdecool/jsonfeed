@@ -94,6 +94,88 @@ class FeedReaderTest extends TestCase
         $this->assertEquals($item, $items[0]);
     }
 
+    /**
+     * @expectedException JDecool\JsonFeed\Exceptions\InvalidFeedException
+     * @expectedExceptionMessage Invalid JSONFeed string
+     */
+    public function testReaderWithJsonSyntaxError()
+    {
+        $input = <<<JSON
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "Brent Simmons’s Microblog",
+}
+JSON;
+
+        $reader = FeedReader::create();
+        $reader->readFromJson($input);
+    }
+
+    /**
+     * @expectedException JDecool\JsonFeed\Exceptions\InvalidFeedException
+     * @expectedExceptionMessage Invalid feed property "custom"
+     */
+    public function testReaderWithInvalidProperty()
+    {
+        $input = <<<JSON
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "Brent Simmons’s Microblog",
+    "custom": "My custom property"
+}
+JSON;
+
+        $reader = FeedReader::create();
+        $reader->readFromJson($input);
+    }
+
+    /**
+     * @expectedException JDecool\JsonFeed\Exceptions\InvalidFeedException
+     * @expectedExceptionMessage Invalid author property "foo"
+     */
+    public function testReaderWithInvalidAuthorProperty()
+    {
+        $input = <<<JSON
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "Brent Simmons’s Microblog",
+    "author": {
+        "name": "Author name",
+        "foo": "bar"
+    }
+}
+JSON;
+
+        $reader = FeedReader::create();
+        $reader->readFromJson($input);
+    }
+
+    /**
+     * @expectedException JDecool\JsonFeed\Exceptions\InvalidFeedException
+     * @expectedExceptionMessage Invalid item property "foo"
+     */
+    public function testReaderWithInvalidItemProperty()
+    {
+        $input = <<<JSON
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "Brent Simmons’s Microblog",
+    "items": [
+        {
+            "id": "2347259",
+            "url": "https://example.org/2347259",
+            "content_text": "Cats are neat. https://example.org/cats",
+            "date_published": "2016-02-09T14:22:00+02:00",
+            "foo": "bar"
+        }
+    ]
+}
+JSON;
+
+        $reader = FeedReader::create();
+        $reader->readFromJson($input);
+    }
+
     private function getFixtures($name)
     {
         return file_get_contents(self::$fixturesPath.'/'.$name.'.json');

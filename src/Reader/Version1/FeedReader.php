@@ -10,6 +10,7 @@ use JDecool\JsonFeed\Feed;
 use JDecool\JsonFeed\Hub;
 use JDecool\JsonFeed\Item;
 use JDecool\JsonFeed\Reader\ReaderInterface;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class FeedReader implements ReaderInterface
@@ -84,7 +85,11 @@ class FeedReader implements ReaderInterface
                     break;
 
                 default:
-                    $this->accessor->setValue($feed, $key, $value);
+                    try {
+                        $this->accessor->setValue($feed, $key, $value);
+                    } catch (NoSuchPropertyException $e) {
+                        throw InvalidFeedException::invalidFeedProperty($key);
+                    }
             }
         }
 
@@ -122,7 +127,11 @@ class FeedReader implements ReaderInterface
                     break;
 
                 default:
-                    $this->accessor->setValue($item, $key, $value);
+                    try {
+                        $this->accessor->setValue($item, $key, $value);
+                    } catch (NoSuchPropertyException $e) {
+                        throw InvalidFeedException::invalidItemProperty($key);
+                    }
             }
         }
 
@@ -145,7 +154,11 @@ class FeedReader implements ReaderInterface
                 continue;
             }
 
-            $this->accessor->setValue($author, $key, $value);
+            try {
+                $this->accessor->setValue($author, $key, $value);
+            } catch (NoSuchPropertyException $e) {
+                throw InvalidFeedException::invalidAuthorProperty($key);
+            }
         }
 
         return $author;
