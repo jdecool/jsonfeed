@@ -21,4 +21,31 @@ class InvalidFeedException extends Exception
     {
         return new self('Undefined JSONFeed version');
     }
+
+    /**
+     * @param string $property
+     * @return InvalidFeedException
+     */
+    public static function invalidFeedProperty($property)
+    {
+        return new self(sprintf('Invalid feed property "%s"', $property));
+    }
+
+    /**
+     * @param string $property
+     * @return InvalidFeedException
+     */
+    public static function invalidItemProperty($property)
+    {
+        return new self(sprintf('Invalid item property "%s"', $property));
+    }
+
+    /**
+     * @param string $property
+     * @return InvalidFeedException
+     */
+    public static function invalidAuthorProperty($property)
+    {
+        return new self(sprintf('Invalid author property "%s"', $property));
+    }
 }
