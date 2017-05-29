@@ -176,6 +176,23 @@ JSON;
         $reader->readFromJson($input);
     }
 
+    public function testReaderWithInvalidPropertyWithErrorEnabled()
+    {
+        $input = <<<JSON
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "Brent Simmons’s Microblog",
+    "custom": "My custom property"
+}
+JSON;
+
+        $reader = FeedReader::create(false);
+
+        $feed = $reader->readFromJson($input);
+        $this->assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
+        $this->assertEquals('Brent Simmons’s Microblog', $feed->getTitle());
+    }
+
     private function getFixtures($name)
     {
         return file_get_contents(self::$fixturesPath.'/'.$name.'.json');

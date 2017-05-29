@@ -18,29 +18,40 @@ class FeedReader implements ReaderInterface
     /** @var \Symfony\Component\PropertyAccess\PropertyAccessor */
     private $accessor;
 
-    /** @var FeedReader */
-    private static $instance;
+    /** @var bool */
+    private $isErrorEnabled;
 
     /**
      * Create reader instance
      *
+     * @param bool $isErrorEnabled
      * @return FeedReader
      */
-    public static function create()
+    public static function create($isErrorEnabled = true)
     {
-        if (null === self::$instance) {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
+        return new self($isErrorEnabled);
     }
 
     /**
      * Constructor
      */
-    private function __construct()
+    private function __construct($isErrorEnabled)
     {
         $this->accessor = PropertyAccess::createPropertyAccessor();
+        $this->isErrorEnabled = $isErrorEnabled;
+    }
+
+    /**
+     * Define if errors are enable on parsing feed data
+     *
+     * @param bool $enable
+     * @return FeedReader
+     */
+    public function enableErrorOnParsing($enable)
+    {
+        $this->isErrorEnabled = $enable;
+
+        return $this;
     }
 
     /**
@@ -88,7 +99,9 @@ class FeedReader implements ReaderInterface
                     try {
                         $this->accessor->setValue($feed, $key, $value);
                     } catch (NoSuchPropertyException $e) {
-                        throw InvalidFeedException::invalidFeedProperty($key);
+                        if ($this->isErrorEnabled) {
+                            throw InvalidFeedException::invalidFeedProperty($key);
+                        }
                     }
             }
         }
@@ -130,7 +143,9 @@ class FeedReader implements ReaderInterface
                     try {
                         $this->accessor->setValue($item, $key, $value);
                     } catch (NoSuchPropertyException $e) {
-                        throw InvalidFeedException::invalidItemProperty($key);
+                        if ($this->isErrorEnabled) {
+                            throw InvalidFeedException::invalidItemProperty($key);
+                        }
                     }
             }
         }
@@ -157,7 +172,9 @@ class FeedReader implements ReaderInterface
             try {
                 $this->accessor->setValue($author, $key, $value);
             } catch (NoSuchPropertyException $e) {
-                throw InvalidFeedException::invalidAuthorProperty($key);
+                if ($this->isErrorEnabled) {
+                    throw InvalidFeedException::invalidAuthorProperty($key);
+                }
             }
         }
 
