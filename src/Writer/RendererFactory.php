@@ -2,7 +2,7 @@
 
 namespace JDecool\JsonFeed\Writer;
 
-use InvalidArgumentException;
+use JDecool\JsonFeed\Exceptions\RuntimeException;
 use JDecool\JsonFeed\Versions;
 
 class RendererFactory
@@ -23,6 +23,8 @@ class RendererFactory
      *
      * @param string $version
      * @return Version1\Renderer
+     *
+     * @throws RuntimeException
      */
     public function createRenderer($version = Versions::VERSION_1)
     {
@@ -35,7 +37,7 @@ class RendererFactory
                 return new Version1\Renderer();
         }
 
-        throw new InvalidArgumentException(sprintf('Unknow version "%s".', $version));
+        throw RuntimeException::noRendererRegisteredException($version);
     }
 
     /**

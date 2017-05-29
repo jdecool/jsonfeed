@@ -3,9 +3,9 @@
 namespace JDecool\JsonFeed\Reader\Version1;
 
 use DateTime;
-use InvalidArgumentException;
 use JDecool\JsonFeed\Attachment;
 use JDecool\JsonFeed\Author;
+use JDecool\JsonFeed\Exceptions\InvalidFeedException;
 use JDecool\JsonFeed\Feed;
 use JDecool\JsonFeed\Hub;
 use JDecool\JsonFeed\Item;
@@ -49,7 +49,7 @@ class FeedReader implements ReaderInterface
     {
         $content = json_decode($json, true);
         if (!is_array($content)) {
-            throw new InvalidArgumentException('Invalid JSONFeed string');
+            throw InvalidFeedException::invalidJsonException();
         }
 
         return $this->readFeedNode($content);

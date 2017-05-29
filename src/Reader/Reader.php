@@ -2,8 +2,8 @@
 
 namespace JDecool\JsonFeed\Reader;
 
-use InvalidArgumentException;
-use RuntimeException;
+use JDecool\JsonFeed\Exceptions\InvalidFeedException;
+use JDecool\JsonFeed\Exceptions\RuntimeException;
 
 class Reader
 {
@@ -25,20 +25,23 @@ class Reader
      *
      * @param string $json
      * @return \JDecool\JsonFeed\Feed
+     *
+     * @throws InvalidFeedException
+     * @throws RuntimeException
      */
     public function createFromJson($json)
     {
         $content = json_decode($json, true);
         if (!is_array($content)) {
-            throw new InvalidArgumentException('Invalid JSONFeed string');
+            throw InvalidFeedException::invalidJsonException();
         }
 
         if (!isset($content['version'])) {
-            throw new RuntimeException('JSONFeed version is not defined');
+            throw InvalidFeedException::undefinedVersionException();
         }
 
         if (!isset($this->readers[$content['version']])) {
-            throw new RuntimeException(sprintf('No reader for version "%s"', $content['version']));
+            throw RuntimeException::noReaderRegisteredException($content['version']);
         }
 
         return $this->readers[$content['version']]->readFromJson($json);
