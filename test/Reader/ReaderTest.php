@@ -28,8 +28,8 @@ JSON;
     }
 
     /**
-     * @expectedException RuntimeException
-     * @expectedExceptionMessage No reader for version "foo"
+     * @expectedException JDecool\JsonFeed\Exceptions\RuntimeException
+     * @expectedExceptionMessage No reader registered for version "foo"
      */
     public function testCreateFromJsonWithInvalidReader()
     {
@@ -45,7 +45,7 @@ JSON;
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException JDecool\JsonFeed\Exceptions\InvalidFeedException
      * @expectedExceptionMessage Invalid JSONFeed string
      */
     public function testCreateFromJsonWithInvalidString()
@@ -62,8 +62,8 @@ JSON;
     }
 
     /**
-     * @expectedException RuntimeException
-     * @expectedExceptionMessage JSONFeed version is not defined
+     * @expectedException JDecool\JsonFeed\Exceptions\InvalidFeedException
+     * @expectedExceptionMessage Undefined JSONFeed version
      */
     public function testCreateFromJsonWithoutVersion()
     {

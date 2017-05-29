@@ -26,8 +26,8 @@ class RendererFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Unknow version "foo".
+     * @expectedException JDecool\JsonFeed\Exceptions\RuntimeException
+     * @expectedExceptionMessage No renderer registered for version "foo"
      */
     public function testCreateWrongVersionRenderer()
     {

@@ -11,6 +11,8 @@ interface ReaderInterface
      *
      * @param string $json
      * @return Feed
+     *
+     * @throws \JDecool\JsonFeed\Exceptions\InvalidFeedException
      */
     public function readFromJson($json);
 }
