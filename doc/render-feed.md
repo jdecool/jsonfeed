@@ -31,9 +31,10 @@ After that, you have to choose which renderer will render your feed:
 
 ```php
 use JDecool\JsonFeed\Writer\RendererFactory;
+use JDecool\JsonFeed\Versions;
 
 $factory = new RendererFactory();
-$renderer = $factory->createRenderer(RendererFactory::VERSION_1);
+$renderer = $factory->createRenderer(Versions::VERSION_1);
 ```
 
 Finaly render your JSONFeed data:
