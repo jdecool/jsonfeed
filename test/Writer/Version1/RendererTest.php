@@ -93,6 +93,29 @@ class RendererTest extends TestCase
         $this->assertJsonStringEqualsJsonString($expected, $render->render($feed));
     }
 
+    public function testRenderExtension()
+    {
+        $feed = new Feed('My Example Feed');
+
+        $item2 = new Item('2');
+        $item2->setContentText('This is a second item.');
+        $item2->setUrl('https://example.org/second-item');
+        $item2->addExtension('extItem2', ['foo' => 'value', 'bar' => 'value']);
+        $item2->addExtension('extAuthor', ['john' => 'doe', 'jane' => 'doe']);
+        $feed->addItem($item2);
+
+        $item1 = new Item('1');
+        $item1->setContentHtml('<p>Hello, world!</p>');
+        $item1->setUrl('https://example.org/initial-post');
+        $item1->addExtension('extAuthor', ['john' => 'doe', 'jane' => 'doe']);
+        $feed->addItem($item1);
+
+        $expected = $this->getFixtures('extension');
+
+        $render = new Renderer();
+        $this->assertJsonStringEqualsJsonString($expected, $render->render($feed));
+    }
+
     private function getFixtures($name)
     {
         return file_get_contents(self::$fixturesPath.'/'.$name.'.json');

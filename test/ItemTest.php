@@ -117,4 +117,31 @@ class ItemTest extends TestCase
         $this->assertEquals(2, count($item->getAttachments()));
         $this->assertEquals($attachments, $item->getAttachments());
     }
+
+    public function testAddExtension()
+    {
+        $extension1 = [
+            'about' => 'https://blueshed-podcasts.com/json-feed-extension-docs',
+            'explicit' => false,
+            'copyright' => '1948 by George Orwell',
+            'owner' => 'Big Brother and the Holding Company',
+            'subtitle' => 'All shouting, all the time. Double. Plus. Good.'
+        ];
+
+        $item = new Item('myid');
+        $item->addExtension('blue_shed', $extension1);
+
+        $this->assertEquals(1, count($item->getExtensions()));
+        $this->assertEquals($extension1, $item->getExtension('blue_shed'));
+
+        $extension2 = [
+            'foo1' => 'bar1',
+            'foo2' => 'bar2',
+        ];
+        $item->addExtension('blue_shed2', $extension2);
+
+        $this->assertEquals(2, count($item->getExtensions()));
+        $this->assertEquals($extension1, $item->getExtension('blue_shed'));
+        $this->assertEquals($extension2, $item->getExtension('blue_shed2'));
+    }
 }

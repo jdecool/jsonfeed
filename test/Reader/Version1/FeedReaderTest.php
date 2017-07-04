@@ -193,6 +193,32 @@ JSON;
         $this->assertEquals('Brent Simmons’s Microblog', $feed->getTitle());
     }
 
+    public function testReadExtensions()
+    {
+        $input = $this->getFixtures('extension');
+        $reader = FeedReader::create();
+
+        $feed = $reader->readFromJson($input);
+        $this->assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
+        $this->assertEquals('My Example Feed', $feed->getTitle());
+
+        $items = $feed->getItems();
+        $this->assertCount(2, $items);
+
+        $item = new Item('2');
+        $item->setContentText('This is a second item.');
+        $item->setUrl('https://example.org/second-item');
+        $item->addExtension('extItem2', ['foo' => 'value', 'bar' => 'value']);
+        $item->addExtension('extAuthor', ['john' => 'doe', 'jane' => 'doe']);
+        $this->assertEquals($item, $items[0]);
+
+        $item = new Item('1');
+        $item->setContentHtml('<p>Hello, world!</p>');
+        $item->setUrl('https://example.org/initial-post');
+        $item->addExtension('extAuthor', ['john' => 'doe', 'jane' => 'doe']);
+        $this->assertEquals($item, $items[1]);
+    }
+
     private function getFixtures($name)
     {
         return file_get_contents(self::$fixturesPath.'/'.$name.'.json');
