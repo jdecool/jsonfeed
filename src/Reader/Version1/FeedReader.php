@@ -141,12 +141,17 @@ class FeedReader implements ReaderInterface
 
                 default:
                     try {
-                        $this->accessor->setValue($item, $key, $value);
+                        if ('_' === $key[0]) {
+                            $item->addExtension(substr($key, 1), $value);
+                        } else {
+                            $this->accessor->setValue($item, $key, $value);
+                        }
                     } catch (NoSuchPropertyException $e) {
                         if ($this->isErrorEnabled) {
                             throw InvalidFeedException::invalidItemProperty($key);
                         }
                     }
+                    break;
             }
         }
 

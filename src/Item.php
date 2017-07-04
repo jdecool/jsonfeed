@@ -3,6 +3,7 @@
 namespace JDecool\JsonFeed;
 
 use DateTime;
+use InvalidArgumentException;
 
 class Item
 {
@@ -48,6 +49,9 @@ class Item
     /** @var Attachment[] */
     private $attachments;
 
+    /** @var array */
+    private $extensions;
+
     /**
      * Constructor
      *
@@ -59,6 +63,7 @@ class Item
 
         $this->tags = [];
         $this->attachments = [];
+        $this->extensions = [];
     }
 
     /**
@@ -397,5 +402,48 @@ class Item
         $this->attachments = $attachments;
 
         return $this;
+    }
+
+    /**
+     * Add an extension to the item
+     *
+     * @param string $key
+     * @param array $value
+     * @return Item
+     */
+    public function addExtension($key, array $value)
+    {
+        if (!is_string($key)) {
+            throw new InvalidArgumentException('Extension key must be a string');
+        }
+
+        $this->extensions[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get all extensions
+     *
+     * @return array
+     */
+    public function getExtensions()
+    {
+        return $this->extensions;
+    }
+
+    /**
+     * Get an extension
+     *
+     * @param string $key
+     * @return array|null
+     */
+    public function getExtension($key)
+    {
+        if (!isset($this->extensions[$key])) {
+            return null;
+        }
+
+        return $this->extensions[$key];
     }
 }

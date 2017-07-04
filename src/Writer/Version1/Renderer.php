@@ -136,6 +136,12 @@ class Renderer implements RendererInterface
             }, $attachments);
         }
 
+        if ($extensions = $item->getExtensions()) {
+            foreach ($extensions as $key => $extension) {
+                $result['_'.$key] = $extension;
+            }
+        }
+
         return $result;
     }
 

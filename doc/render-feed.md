@@ -18,6 +18,13 @@ $item = new Item('2347259');
 $item->setUrl('https://example.org/2347259');
 $item->setDatePublished(new DateTime('2016-02-09 14:22:00', new DateTimeZone('+0200')));
 $item->setContentText('Cats are neat. https://example.org/cats');
+$item->addExtension('blue_shed', [
+    'about' => 'https://blueshed-podcasts.com/json-feed-extension-docs',
+    'explicit': false,
+    'copyright' => '1948 by George Orwell',
+    'owner' => 'Big Brother and the Holding Company',
+    'subtitle' => 'All shouting, all the time. Double. Plus. Good.'
+]);
 
 $feed = new Feed('Brent Simmons’s Microblog');
 $feed->setUserComment('This is a microblog feed. You can add this to your feed reader using the following URL: https://example.org/feed.json');

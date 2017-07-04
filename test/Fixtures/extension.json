@@ -1,0 +1,28 @@
+{
+  "version": "https://jsonfeed.org/version/1",
+  "title": "My Example Feed",
+  "items": [
+    {
+      "id": "2",
+      "content_text": "This is a second item.",
+      "url": "https://example.org/second-item",
+      "_extItem2": {
+        "foo": "value",
+        "bar": "value"
+      },
+      "_extAuthor": {
+        "john": "doe",
+        "jane": "doe"
+      }
+    },
+    {
+      "id": "1",
+      "content_html": "<p>Hello, world!</p>",
+      "url": "https://example.org/initial-post",
+      "_extAuthor": {
+        "john": "doe",
+        "jane": "doe"
+      }
+    }
+  ]
+}
