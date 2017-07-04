@@ -62,3 +62,14 @@ $renderer = $factory->createRenderer(RendererFactory::VERSION_1);
 header('Content-Type: application/json');
 echo $renderer->render($feed);
 ```
+
+Read a feed :
+
+```php
+use JDecool\JsonFeed\Reader\ReaderBuilder;
+
+$json = file_get_content('http://foo.bar');
+
+$reader = (new ReaderBuilder())->build();
+$feed = $reader->createFromJson($json);
+```
