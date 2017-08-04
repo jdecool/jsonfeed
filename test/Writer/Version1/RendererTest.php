@@ -93,6 +93,33 @@ class RendererTest extends TestCase
         $this->assertJsonStringEqualsJsonString($expected, $render->render($feed));
     }
 
+    public function testAuthorsFeed()
+    {
+        $feedAuthor = new Author('Global Author');
+        $feed = new Feed('My Example Feed');
+        $feed->setFeedUrl('https://example.org/feed.json');
+        $feed->setAuthor($feedAuthor);
+
+        $item2Author = new Author('Author 2');
+        $item2 = new Item('2');
+        $item2->setUrl('https://example.org/2');
+        $item2->setContentText('This is a second item.');
+        $item2->setAuthor($item2Author);
+        $feed->addItem($item2);
+
+        $item1Author = new Author('Author 1');
+        $item1 = new Item('1');
+        $item1->setUrl('https://example.org/1');
+        $item1->setContentHtml('<p>This is the first item.</p>');
+        $item1->setAuthor($item1Author);
+        $feed->addItem($item1);
+
+        $expected = $this->getFixtures('authors');
+
+        $render = new Renderer();
+        $this->assertJsonStringEqualsJsonString($expected, $render->render($feed));
+    }
+
     public function testRenderExtension()
     {
         $feed = new Feed('My Example Feed');

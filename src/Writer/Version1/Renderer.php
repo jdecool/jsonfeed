@@ -136,6 +136,10 @@ class Renderer implements RendererInterface
             }, $attachments);
         }
 
+        if ($author = $item->getAuthor()) {
+            $result['author'] = $this->renderAuthor($author);
+        }
+
         if ($extensions = $item->getExtensions()) {
             foreach ($extensions as $key => $extension) {
                 $result['_'.$key] = $extension;
