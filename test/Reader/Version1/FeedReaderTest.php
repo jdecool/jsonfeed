@@ -4,6 +4,7 @@ namespace JDecool\Test\JsonFeed\Reader\Version1;
 
 use DateTime;
 use JDecool\JsonFeed\Attachment;
+use JDecool\JsonFeed\Author;
 use JDecool\JsonFeed\Item;
 use JDecool\JsonFeed\Reader\Version1\FeedReader;
 use PHPUnit\Framework\TestCase;
@@ -92,6 +93,37 @@ class FeedReaderTest extends TestCase
         $item->setContentText('Cats are neat. https://example.org/cats');
         $item->setDatePublished(new DateTime('2016-02-09T14:22:00+02:00'));
         $this->assertEquals($item, $items[0]);
+    }
+
+    public function testAuthorsFeed()
+    {
+        $input = $this->getFixtures('authors');
+        $reader = FeedReader::create();
+
+        $feed = $reader->readFromJson($input);
+        $this->assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
+        $this->assertEquals('My Example Feed', $feed->getTitle());
+        $this->assertEquals('Global Author', $feed->getAuthor()->getName());
+        $this->assertEquals('https://example.org/feed.json', $feed->getFeedUrl());
+
+        $items = $feed->getItems();
+        $this->assertCount(2, $items);
+
+        $item2Author = new Author('Author 2');
+        $item2 = new Item('2');
+        $item2->setUrl('https://example.org/2');
+        $item2->setContentText('This is a second item.');
+        $item2->setAuthor($item2Author);
+        $this->assertEquals('Author 2', $item2->getAuthor()->getName());
+        $this->assertEquals($item2, $items[0]);
+
+        $item1Author = new Author('Author 1');
+        $item1 = new Item('1');
+        $item1->setUrl('https://example.org/1');
+        $item1->setContentHtml('<p>This is the first item.</p>');
+        $item1->setAuthor($item1Author);
+        $this->assertEquals('Author 1', $item1->getAuthor()->getName());
+        $this->assertEquals($item1, $items[1]);
     }
 
     /**

@@ -1,0 +1,26 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "My Example Feed",
+    "feed_url": "https://example.org/feed.json",
+    "author": {
+        "name": "Global Author"
+    },
+    "items": [
+        {
+            "id": "2",
+            "content_text": "This is a second item.",
+            "url": "https://example.org/2",
+            "author": {
+                "name": "Author 2"
+            }
+        },
+        {
+            "id": "1",
+            "content_html": "<p>This is the first item.</p>",
+            "url": "https://example.org/1",
+            "author": {
+                "name": "Author 1"
+            }
+        }
+    ]
+}
