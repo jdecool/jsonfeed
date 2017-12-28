@@ -71,7 +71,7 @@ class Renderer implements RendererInterface
             }, $hubs);
         }
 
-        return json_encode($result);
+        return json_encode($result, JSON_UNESCAPED_SLASHES);
     }
 
     /**
