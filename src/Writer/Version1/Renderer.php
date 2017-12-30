@@ -13,6 +13,23 @@ use JDecool\JsonFeed\Writer\RendererInterface;
 
 class Renderer implements RendererInterface
 {
+    /** @var int `json_encode` bitmask */
+    private $flags = 0;
+
+    /**
+     * Constructor
+     *
+     * @property int $flags
+     */
+    public function __construct($flags = null)
+    {
+        if (null === $flags) {
+            $flags = JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT;
+        }
+
+        $this->flags = $flags;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -71,7 +88,7 @@ class Renderer implements RendererInterface
             }, $hubs);
         }
 
-        return json_encode($result, JSON_UNESCAPED_SLASHES);
+        return json_encode($result, $this->flags);
     }
 
     /**
