@@ -9,89 +9,89 @@ use PHPUnit\Framework\TestCase;
 
 class ItemTest extends TestCase
 {
-    public function testCreateObject()
+    public function testCreateObject(): void
     {
         $item = new Item('myid');
 
-        $this->assertEquals('myid', $item->getId());
-        $this->assertNull($item->getUrl());
-        $this->assertNull($item->getExternalUrl());
-        $this->assertNull($item->getTitle());
-        $this->assertNull($item->getContentHtml());
-        $this->assertNull($item->getContentText());
-        $this->assertNull($item->getSummary());
-        $this->assertNull($item->getImage());
-        $this->assertNull($item->getBannerImage());
-        $this->assertNull($item->getDatePublished());
-        $this->assertNull($item->getDateModified());
-        $this->assertEmpty($item->getAuthor());
-        $this->assertEmpty($item->getTags());
-        $this->assertEmpty($item->getAttachments());
+        static::assertEquals('myid', $item->getId());
+        static::assertNull($item->getUrl());
+        static::assertNull($item->getExternalUrl());
+        static::assertNull($item->getTitle());
+        static::assertNull($item->getContentHtml());
+        static::assertNull($item->getContentText());
+        static::assertNull($item->getSummary());
+        static::assertNull($item->getImage());
+        static::assertNull($item->getBannerImage());
+        static::assertNull($item->getDatePublished());
+        static::assertNull($item->getDateModified());
+        static::assertEmpty($item->getAuthor());
+        static::assertEmpty($item->getTags());
+        static::assertEmpty($item->getAttachments());
     }
 
-    public function testAddAuthor()
+    public function testAddAuthor(): void
     {
         $author = new Author('foo');
 
         $item = new Item('myid');
         $item->setAuthor($author);
 
-        $this->assertEquals($author, $item->getAuthor());
+        static::assertEquals($author, $item->getAuthor());
     }
 
-    public function testTagsEmpty()
+    public function testTagsEmpty(): void
     {
         $item = new Item('myid');
-        $this->assertEmpty($item->getTags());
+        static::assertEmpty($item->getTags());
     }
 
-    public function testAddTagsOneElement()
+    public function testAddTagsOneElement(): void
     {
         $item = new Item('myid');
         $item->addTag('tag1');
 
-        $this->assertEquals(1, count($item->getTags()));
-        $this->assertEquals(['tag1'], $item->getTags());
+        static::assertEquals(1, count($item->getTags()));
+        static::assertEquals(['tag1'], $item->getTags());
     }
 
-    public function testAddTagsTwoElements()
+    public function testAddTagsTwoElements(): void
     {
         $item = new Item('myid');
         $item->addTag('tag1');
         $item->addTag('tag2');
 
-        $this->assertEquals(2, count($item->getTags()));
-        $this->assertEquals(['tag1', 'tag2'], $item->getTags());
+        static::assertEquals(2, count($item->getTags()));
+        static::assertEquals(['tag1', 'tag2'], $item->getTags());
     }
 
-    public function testSetTags()
+    public function testSetTags(): void
     {
         $tags = ['tag1', 'tag2'];
 
         $item = new Item('myid');
         $item->setTags($tags);
 
-        $this->assertEquals($tags, $item->getTags());
+        static::assertEquals($tags, $item->getTags());
     }
 
-    public function testAttachmentEmpty()
+    public function testAttachmentEmpty(): void
     {
         $item = new Item('myid');
-        $this->assertEmpty($item->getAttachments());
+        static::assertEmpty($item->getAttachments());
     }
 
-    public function testAddAttachmentOneElement()
+    public function testAddAttachmentOneElement(): void
     {
         $attachment = new Attachment('foo1', 'bar1');
 
         $item = new Item('myid');
         $item->addAttachment($attachment);
 
-        $this->assertEquals(1, count($item->getAttachments()));
-        $this->assertEquals([$attachment], $item->getAttachments());
+        static::assertEquals(1, count($item->getAttachments()));
+        static::assertEquals([$attachment], $item->getAttachments());
     }
 
-    public function testAddAttachmentTwoElements()
+    public function testAddAttachmentTwoElements(): void
     {
         $attachment1 = new Attachment('foo1', 'bar1');
         $attachment2 = new Attachment('foo2', 'bar2');
@@ -100,11 +100,11 @@ class ItemTest extends TestCase
         $item->addAttachment($attachment1);
         $item->addAttachment($attachment2);
 
-        $this->assertEquals(2, count($item->getAttachments()));
-        $this->assertEquals([$attachment1, $attachment2], $item->getAttachments());
+        static::assertEquals(2, count($item->getAttachments()));
+        static::assertEquals([$attachment1, $attachment2], $item->getAttachments());
     }
 
-    public function testSetAttachments()
+    public function testSetAttachments(): void
     {
         $attachments = [
             new Attachment('foo1', 'bar1'),
@@ -114,11 +114,11 @@ class ItemTest extends TestCase
         $item = new Item('myid');
         $item->setAttachments($attachments);
 
-        $this->assertEquals(2, count($item->getAttachments()));
-        $this->assertEquals($attachments, $item->getAttachments());
+        static::assertEquals(2, count($item->getAttachments()));
+        static::assertEquals($attachments, $item->getAttachments());
     }
 
-    public function testAddExtension()
+    public function testAddExtension(): void
     {
         $extension1 = [
             'about' => 'https://blueshed-podcasts.com/json-feed-extension-docs',
@@ -131,8 +131,8 @@ class ItemTest extends TestCase
         $item = new Item('myid');
         $item->addExtension('blue_shed', $extension1);
 
-        $this->assertEquals(1, count($item->getExtensions()));
-        $this->assertEquals($extension1, $item->getExtension('blue_shed'));
+        static::assertEquals(1, count($item->getExtensions()));
+        static::assertEquals($extension1, $item->getExtension('blue_shed'));
 
         $extension2 = [
             'foo1' => 'bar1',
@@ -140,8 +140,8 @@ class ItemTest extends TestCase
         ];
         $item->addExtension('blue_shed2', $extension2);
 
-        $this->assertEquals(2, count($item->getExtensions()));
-        $this->assertEquals($extension1, $item->getExtension('blue_shed'));
-        $this->assertEquals($extension2, $item->getExtension('blue_shed2'));
+        static::assertEquals(2, count($item->getExtensions()));
+        static::assertEquals($extension1, $item->getExtension('blue_shed'));
+        static::assertEquals($extension2, $item->getExtension('blue_shed2'));
     }
 }

@@ -7,10 +7,10 @@ use PHPUnit\Framework\TestCase;
 
 class ReaderBuilderTest extends TestCase
 {
-    public function testBuilder()
+    public function testBuilder(): void
     {
         $builder = new ReaderBuilder();
 
-        $this->assertInstanceOf('JDecool\JsonFeed\Reader\Reader', $builder->build());
+        static::assertInstanceOf('JDecool\JsonFeed\Reader\Reader', $builder->build());
     }
 }

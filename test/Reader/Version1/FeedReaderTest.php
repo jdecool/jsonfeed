@@ -5,6 +5,7 @@ namespace JDecool\Test\JsonFeed\Reader\Version1;
 use DateTime;
 use JDecool\JsonFeed\Attachment;
 use JDecool\JsonFeed\Author;
+use JDecool\JsonFeed\Exceptions\InvalidFeedException;
 use JDecool\JsonFeed\Item;
 use JDecool\JsonFeed\Reader\Version1\FeedReader;
 use PHPUnit\Framework\TestCase;
@@ -13,50 +14,50 @@ class FeedReaderTest extends TestCase
 {
     private static $fixturesPath;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$fixturesPath = realpath(__DIR__.'/../../Fixtures');
     }
 
-    public function testSimpleFeed()
+    public function testSimpleFeed(): void
     {
         $input = $this->getFixtures('simple');
         $reader = FeedReader::create();
 
         $feed = $reader->readFromJson($input);
-        $this->assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
-        $this->assertEquals('My Example Feed', $feed->getTitle());
-        $this->assertEquals('https://example.org/', $feed->getHomepageUrl());
-        $this->assertEquals('https://example.org/feed.json', $feed->getFeedUrl());
+        static::assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
+        static::assertEquals('My Example Feed', $feed->getTitle());
+        static::assertEquals('https://example.org/', $feed->getHomepageUrl());
+        static::assertEquals('https://example.org/feed.json', $feed->getFeedUrl());
 
         $items = $feed->getItems();
-        $this->assertCount(2, $items);
+        static::assertCount(2, $items);
 
         $item2 = new Item('2');
         $item2->setContentText('This is a second item.');
         $item2->setUrl('https://example.org/second-item');
-        $this->assertEquals($item2, $items[0]);
+        static::assertEquals($item2, $items[0]);
 
         $item1 = new Item('1');
         $item1->setContentHtml('<p>Hello, world!</p>');
         $item1->setUrl('https://example.org/initial-post');
-        $this->assertEquals($item1, $items[1]);
+        static::assertEquals($item1, $items[1]);
     }
 
-    public function testPodcastFeed()
+    public function testPodcastFeed(): void
     {
         $input = $this->getFixtures('podcast');
         $reader = FeedReader::create();
 
         $feed = $reader->readFromJson($input);
-        $this->assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
-        $this->assertEquals('The Record', $feed->getTitle());
-        $this->assertEquals('http://therecord.co/', $feed->getHomepageUrl());
-        $this->assertEquals('http://therecord.co/feed.json', $feed->getFeedUrl());
-        $this->assertEquals('This is a podcast feed. You can add this feed to your podcast client using the following URL: http://therecord.co/feed.json', $feed->getUserComment());
+        static::assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
+        static::assertEquals('The Record', $feed->getTitle());
+        static::assertEquals('http://therecord.co/', $feed->getHomepageUrl());
+        static::assertEquals('http://therecord.co/feed.json', $feed->getFeedUrl());
+        static::assertEquals('This is a podcast feed. You can add this feed to your podcast client using the following URL: http://therecord.co/feed.json', $feed->getUserComment());
 
         $items = $feed->getItems();
-        $this->assertCount(1, $items);
+        static::assertCount(1, $items);
 
         $attachment = new Attachment('http://therecord.co/downloads/The-Record-sp1e1-ChrisParrish.m4a', 'audio/x-m4a');
         $attachment->setSize(89970236);
@@ -70,67 +71,63 @@ class FeedReaderTest extends TestCase
         $item->setSummary('Brent interviews Chris Parrish, co-host of The Record and one-half of Aged & Distilled.');
         $item->setDatePublished(new DateTime('2014-05-09T14:04:00-07:00'));
         $item->addAttachment($attachment);
-        $this->assertEquals($item, $items[0]);
+        static::assertEquals($item, $items[0]);
     }
 
-    public function testMicroblogFeed()
+    public function testMicroblogFeed(): void
     {
         $input = $this->getFixtures('microblog');
         $reader = FeedReader::create();
 
         $feed = $reader->readFromJson($input);
-        $this->assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
-        $this->assertEquals('Brent Simmons’s Microblog', $feed->getTitle());
-        $this->assertEquals('https://example.org/', $feed->getHomepageUrl());
-        $this->assertEquals('https://example.org/feed.json', $feed->getFeedUrl());
-        $this->assertEquals('This is a microblog feed. You can add this to your feed reader using the following URL: https://example.org/feed.json', $feed->getUserComment());
+        static::assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
+        static::assertEquals('Brent Simmons’s Microblog', $feed->getTitle());
+        static::assertEquals('https://example.org/', $feed->getHomepageUrl());
+        static::assertEquals('https://example.org/feed.json', $feed->getFeedUrl());
+        static::assertEquals('This is a microblog feed. You can add this to your feed reader using the following URL: https://example.org/feed.json', $feed->getUserComment());
 
         $items = $feed->getItems();
-        $this->assertCount(1, $items);
+        static::assertCount(1, $items);
 
         $item = new Item('2347259');
         $item->setUrl('https://example.org/2347259');
         $item->setContentText('Cats are neat. https://example.org/cats');
         $item->setDatePublished(new DateTime('2016-02-09T14:22:00+02:00'));
-        $this->assertEquals($item, $items[0]);
+        static::assertEquals($item, $items[0]);
     }
 
-    public function testAuthorsFeed()
+    public function testAuthorsFeed(): void
     {
         $input = $this->getFixtures('authors');
         $reader = FeedReader::create();
 
         $feed = $reader->readFromJson($input);
-        $this->assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
-        $this->assertEquals('My Example Feed', $feed->getTitle());
-        $this->assertEquals('Global Author', $feed->getAuthor()->getName());
-        $this->assertEquals('https://example.org/feed.json', $feed->getFeedUrl());
+        static::assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
+        static::assertEquals('My Example Feed', $feed->getTitle());
+        static::assertEquals('Global Author', $feed->getAuthor()->getName());
+        static::assertEquals('https://example.org/feed.json', $feed->getFeedUrl());
 
         $items = $feed->getItems();
-        $this->assertCount(2, $items);
+        static::assertCount(2, $items);
 
         $item2Author = new Author('Author 2');
         $item2 = new Item('2');
         $item2->setUrl('https://example.org/2');
         $item2->setContentText('This is a second item.');
         $item2->setAuthor($item2Author);
-        $this->assertEquals('Author 2', $item2->getAuthor()->getName());
-        $this->assertEquals($item2, $items[0]);
+        static::assertEquals('Author 2', $item2->getAuthor()->getName());
+        static::assertEquals($item2, $items[0]);
 
         $item1Author = new Author('Author 1');
         $item1 = new Item('1');
         $item1->setUrl('https://example.org/1');
         $item1->setContentHtml('<p>This is the first item.</p>');
         $item1->setAuthor($item1Author);
-        $this->assertEquals('Author 1', $item1->getAuthor()->getName());
-        $this->assertEquals($item1, $items[1]);
+        static::assertEquals('Author 1', $item1->getAuthor()->getName());
+        static::assertEquals($item1, $items[1]);
     }
 
-    /**
-     * @expectedException JDecool\JsonFeed\Exceptions\InvalidFeedException
-     * @expectedExceptionMessage Invalid JSONFeed string
-     */
-    public function testReaderWithJsonSyntaxError()
+    public function testReaderWithJsonSyntaxError(): void
     {
         $input = <<<JSON
 {
@@ -140,14 +137,14 @@ class FeedReaderTest extends TestCase
 JSON;
 
         $reader = FeedReader::create();
+
+        $this->expectException(InvalidFeedException::class);
+        $this->expectExceptionMessage('Invalid JSONFeed string');
+
         $reader->readFromJson($input);
     }
 
-    /**
-     * @expectedException JDecool\JsonFeed\Exceptions\InvalidFeedException
-     * @expectedExceptionMessage Invalid feed property "custom"
-     */
-    public function testReaderWithInvalidProperty()
+    public function testReaderWithInvalidProperty(): void
     {
         $input = <<<JSON
 {
@@ -158,14 +155,14 @@ JSON;
 JSON;
 
         $reader = FeedReader::create();
+
+        $this->expectException(InvalidFeedException::class);
+        $this->expectExceptionMessage('Invalid feed property "custom"');
+
         $reader->readFromJson($input);
     }
 
-    /**
-     * @expectedException JDecool\JsonFeed\Exceptions\InvalidFeedException
-     * @expectedExceptionMessage Invalid author property "foo"
-     */
-    public function testReaderWithInvalidAuthorProperty()
+    public function testReaderWithInvalidAuthorProperty(): void
     {
         $input = <<<JSON
 {
@@ -179,14 +176,14 @@ JSON;
 JSON;
 
         $reader = FeedReader::create();
+
+         $this->expectException(InvalidFeedException::class);
+         $this->expectExceptionMessage('Invalid author property "foo"');
+
         $reader->readFromJson($input);
     }
 
-    /**
-     * @expectedException JDecool\JsonFeed\Exceptions\InvalidFeedException
-     * @expectedExceptionMessage Invalid item property "foo"
-     */
-    public function testReaderWithInvalidItemProperty()
+    public function testReaderWithInvalidItemProperty(): void
     {
         $input = <<<JSON
 {
@@ -205,10 +202,15 @@ JSON;
 JSON;
 
         $reader = FeedReader::create();
+
+
+        $this->expectException(InvalidFeedException::class);
+        $this->expectExceptionMessage('Invalid item property "foo"');
+
         $reader->readFromJson($input);
     }
 
-    public function testReaderWithInvalidPropertyWithErrorEnabled()
+    public function testReaderWithInvalidPropertyWithErrorEnabled(): void
     {
         $input = <<<JSON
 {
@@ -221,34 +223,34 @@ JSON;
         $reader = FeedReader::create(false);
 
         $feed = $reader->readFromJson($input);
-        $this->assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
-        $this->assertEquals('Brent Simmons’s Microblog', $feed->getTitle());
+        static::assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
+        static::assertEquals('Brent Simmons’s Microblog', $feed->getTitle());
     }
 
-    public function testReadExtensions()
+    public function testReadExtensions(): void
     {
         $input = $this->getFixtures('extension');
         $reader = FeedReader::create();
 
         $feed = $reader->readFromJson($input);
-        $this->assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
-        $this->assertEquals('My Example Feed', $feed->getTitle());
+        static::assertInstanceOf('JDecool\JsonFeed\Feed', $feed);
+        static::assertEquals('My Example Feed', $feed->getTitle());
 
         $items = $feed->getItems();
-        $this->assertCount(2, $items);
+        static::assertCount(2, $items);
 
         $item = new Item('2');
         $item->setContentText('This is a second item.');
         $item->setUrl('https://example.org/second-item');
         $item->addExtension('extItem2', ['foo' => 'value', 'bar' => 'value']);
         $item->addExtension('extAuthor', ['john' => 'doe', 'jane' => 'doe']);
-        $this->assertEquals($item, $items[0]);
+        static::assertEquals($item, $items[0]);
 
         $item = new Item('1');
         $item->setContentHtml('<p>Hello, world!</p>');
         $item->setUrl('https://example.org/initial-post');
         $item->addExtension('extAuthor', ['john' => 'doe', 'jane' => 'doe']);
-        $this->assertEquals($item, $items[1]);
+        static::assertEquals($item, $items[1]);
     }
 
     private function getFixtures($name)

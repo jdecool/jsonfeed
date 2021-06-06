@@ -7,16 +7,16 @@ use PHPUnit\Framework\TestCase;
 
 class AuthorTest extends TestCase
 {
-    public function testCreateObject()
+    public function testCreateObject(): void
     {
         $author = new Author('foo');
 
-        $this->assertEquals('foo', $author->getName());
-        $this->assertNull($author->getUrl());
-        $this->assertNull($author->getAvatar());
+        static::assertEquals('foo', $author->getName());
+        static::assertNull($author->getUrl());
+        static::assertNull($author->getAvatar());
     }
 
-    public function testFullObject()
+    public function testFullObject(): void
     {
         $author = new Author('foo');
         $author
@@ -24,8 +24,8 @@ class AuthorTest extends TestCase
             ->setAvatar('file://image')
         ;
 
-        $this->assertEquals('foo', $author->getName());
-        $this->assertEquals('file://bar', $author->getUrl());
-        $this->assertEquals('file://image', $author->getAvatar());
+        static::assertEquals('foo', $author->getName());
+        static::assertEquals('file://bar', $author->getUrl());
+        static::assertEquals('file://image', $author->getAvatar());
     }
 }
