@@ -1,0 +1,18 @@
+name: Continuous Integration
+on: [push]
+
+jobs:
+    tests:
+        name: Tests
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                version: ['7.3', '7.4', '8.0']
+                flags: ['', '--prefer-lowest', '--prefer-stable']
+        steps:
+            - uses: actions/checkout@v2
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.version }}
+            - run: 'composer update --prefer-dist --no-interaction ${{ matrix.flags }}'
+            - run: 'vendor/bin/phpunit'
