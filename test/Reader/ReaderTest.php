@@ -2,12 +2,14 @@
 
 namespace JDecool\Test\JsonFeed\Reader;
 
+use JDecool\JsonFeed\Exceptions\InvalidFeedException;
+use JDecool\JsonFeed\Exceptions\RuntimeException;
 use JDecool\JsonFeed\Reader\Reader;
 use PHPUnit\Framework\TestCase;
 
 class ReaderTest extends TestCase
 {
-    public function testCreateFromJson()
+    public function testCreateFromJson(): void
     {
         $json = <<<JSON
 {
@@ -27,11 +29,7 @@ JSON;
         $reader->createFromJson($json);
     }
 
-    /**
-     * @expectedException JDecool\JsonFeed\Exceptions\RuntimeException
-     * @expectedExceptionMessage No reader registered for version "foo"
-     */
-    public function testCreateFromJsonWithInvalidReader()
+    public function testCreateFromJsonWithInvalidReader(): void
     {
         $json = <<<JSON
 {
@@ -41,14 +39,14 @@ JSON;
 JSON;
 
         $reader = new Reader([]);
+
+         $this->expectException(RuntimeException::class);
+         $this->expectExceptionMessage('No reader registered for version "foo"');
+
         $reader->createFromJson($json);
     }
 
-    /**
-     * @expectedException JDecool\JsonFeed\Exceptions\InvalidFeedException
-     * @expectedExceptionMessage Invalid JSONFeed string
-     */
-    public function testCreateFromJsonWithInvalidString()
+    public function testCreateFromJsonWithInvalidString(): void
     {
         $json = <<<JSON
 {
@@ -58,14 +56,14 @@ JSON;
 JSON;
 
         $reader = new Reader([]);
+
+         $this->expectException(InvalidFeedException::class);
+         $this->expectExceptionMessage('Invalid JSONFeed string');
+
         $reader->createFromJson($json);
     }
 
-    /**
-     * @expectedException JDecool\JsonFeed\Exceptions\InvalidFeedException
-     * @expectedExceptionMessage Undefined JSONFeed version
-     */
-    public function testCreateFromJsonWithoutVersion()
+    public function testCreateFromJsonWithoutVersion(): void
     {
         $json = <<<JSON
 {
@@ -74,6 +72,10 @@ JSON;
 JSON;
 
         $reader = new Reader([]);
+
+         $this->expectException(InvalidFeedException::class);
+         $this->expectExceptionMessage('Undefined JSONFeed version');
+
         $reader->createFromJson($json);
     }
 }

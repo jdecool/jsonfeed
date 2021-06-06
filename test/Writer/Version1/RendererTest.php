@@ -15,12 +15,12 @@ class RendererTest extends TestCase
 {
     private static $fixturesPath;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$fixturesPath = realpath(__DIR__.'/../../Fixtures');
     }
 
-    public function testSimpleFeed()
+    public function testSimpleFeed(): void
     {
         $feed = new Feed('My Example Feed');
         $feed->setHomepageUrl('https://example.org/');
@@ -39,10 +39,10 @@ class RendererTest extends TestCase
         $expected = $this->getFixtures('simple');
 
         $render = new Renderer();
-        $this->assertJsonStringEqualsJsonString($expected, $render->render($feed));
+        static::assertJsonStringEqualsJsonString($expected, $render->render($feed));
     }
 
-    public function testPodcastFeed()
+    public function testPodcastFeed(): void
     {
         $attachment = new Attachment('http://therecord.co/downloads/The-Record-sp1e1-ChrisParrish.m4a', 'audio/x-m4a');
         $attachment->setSize(89970236);
@@ -66,10 +66,10 @@ class RendererTest extends TestCase
         $expected = $this->getFixtures('podcast');
 
         $render = new Renderer();
-        $this->assertJsonStringEqualsJsonString($expected, $render->render($feed));
+        static::assertJsonStringEqualsJsonString($expected, $render->render($feed));
     }
 
-    public function testMicroblogFeed()
+    public function testMicroblogFeed(): void
     {
         $author = new Author('Brent Simmons');
         $author->setUrl('http://example.org/');
@@ -90,10 +90,10 @@ class RendererTest extends TestCase
         $expected = $this->getFixtures('microblog');
 
         $render = new Renderer();
-        $this->assertJsonStringEqualsJsonString($expected, $render->render($feed));
+        static::assertJsonStringEqualsJsonString($expected, $render->render($feed));
     }
 
-    public function testAuthorsFeed()
+    public function testAuthorsFeed(): void
     {
         $feedAuthor = new Author('Global Author');
         $feed = new Feed('My Example Feed');
@@ -117,10 +117,10 @@ class RendererTest extends TestCase
         $expected = $this->getFixtures('authors');
 
         $render = new Renderer();
-        $this->assertJsonStringEqualsJsonString($expected, $render->render($feed));
+        static::assertJsonStringEqualsJsonString($expected, $render->render($feed));
     }
 
-    public function testRenderExtension()
+    public function testRenderExtension(): void
     {
         $feed = new Feed('My Example Feed');
 
@@ -140,7 +140,7 @@ class RendererTest extends TestCase
         $expected = $this->getFixtures('extension');
 
         $render = new Renderer();
-        $this->assertJsonStringEqualsJsonString($expected, $render->render($feed));
+        static::assertJsonStringEqualsJsonString($expected, $render->render($feed));
     }
 
     private function getFixtures($name)

@@ -8,36 +8,36 @@ use PHPUnit\Framework\TestCase;
 
 class FeedTest extends TestCase
 {
-    public function testCreateObject()
+    public function testCreateObject(): void
     {
         $feed = new Feed('My feed');
 
-        $this->assertEquals('My feed', $feed->getTitle());
-        $this->assertNull($feed->getHomepageUrl());
-        $this->assertNull($feed->getFeedUrl());
-        $this->assertNull($feed->getDescription());
-        $this->assertNull($feed->getUserComment());
-        $this->assertNull($feed->getNextUrl());
-        $this->assertNull($feed->getIcon());
-        $this->assertNull($feed->getFavicon());
-        $this->assertNull($feed->getAuthor());
-        $this->assertNull($feed->isExpired());
-        $this->assertEmpty($feed->getHubs());
-        $this->assertEmpty($feed->getItems());
+        static::assertEquals('My feed', $feed->getTitle());
+        static::assertNull($feed->getHomepageUrl());
+        static::assertNull($feed->getFeedUrl());
+        static::assertNull($feed->getDescription());
+        static::assertNull($feed->getUserComment());
+        static::assertNull($feed->getNextUrl());
+        static::assertNull($feed->getIcon());
+        static::assertNull($feed->getFavicon());
+        static::assertNull($feed->getAuthor());
+        static::assertNull($feed->isExpired());
+        static::assertEmpty($feed->getHubs());
+        static::assertEmpty($feed->getItems());
     }
 
-    public function testFeedWithOneItem()
+    public function testFeedWithOneItem(): void
     {
         $item = new Item('itemId');
         $feed = new Feed('My feed');
         $feed->addItem($item);
 
         $feedItems = $feed->getItems();
-        $this->assertEquals(1, count($feedItems));
-        $this->assertEquals($item, $feedItems[0]);
+        static::assertEquals(1, count($feedItems));
+        static::assertEquals($item, $feedItems[0]);
     }
 
-    public function testFeedWithTwoItems()
+    public function testFeedWithTwoItems(): void
     {
         $item1 = new Item('itemId1');
         $item2 = new Item('itemId2');
@@ -47,8 +47,8 @@ class FeedTest extends TestCase
         $feed->addItem($item2);
 
         $feedItems = $feed->getItems();
-        $this->assertEquals(2, count($feedItems));
-        $this->assertEquals($item1, $feedItems[0]);
-        $this->assertEquals($item2, $feedItems[1]);
+        static::assertEquals(2, count($feedItems));
+        static::assertEquals($item1, $feedItems[0]);
+        static::assertEquals($item2, $feedItems[1]);
     }
 }

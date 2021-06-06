@@ -7,11 +7,11 @@ use PHPUnit\Framework\TestCase;
 
 class HubTest extends TestCase
 {
-    public function testCreateObject()
+    public function testCreateObject(): void
     {
         $hub = new Hub('foo', 'file://bar');
 
-        $this->assertEquals('foo', $hub->getType());
-        $this->assertEquals('file://bar', $hub->getUrl());
+        static::assertEquals('foo', $hub->getType());
+        static::assertEquals('file://bar', $hub->getUrl());
     }
 }
