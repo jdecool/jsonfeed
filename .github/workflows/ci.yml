@@ -2,6 +2,19 @@ name: Continuous Integration
 on: [push]
 
 jobs:
+    linter:
+        name: Code style
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - uses: docker://composer
+              with:
+                  args: install
+            - uses: docker://php:8.0-cli-alpine
+              with:
+                  entrypoint: vendor/bin/php-cs-fixer
+                  args: fix -v --dry-run
+
     tests:
         name: Tests
         runs-on: ubuntu-latest
