@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JDecool\Test\JsonFeed\Reader;
 
 use JDecool\JsonFeed\Exceptions\InvalidFeedException;
@@ -40,8 +42,8 @@ JSON;
 
         $reader = new Reader([]);
 
-         $this->expectException(RuntimeException::class);
-         $this->expectExceptionMessage('No reader registered for version "foo"');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('No reader registered for version "foo"');
 
         $reader->createFromJson($json);
     }
@@ -57,8 +59,8 @@ JSON;
 
         $reader = new Reader([]);
 
-         $this->expectException(InvalidFeedException::class);
-         $this->expectExceptionMessage('Invalid JSONFeed string');
+        $this->expectException(InvalidFeedException::class);
+        $this->expectExceptionMessage('Invalid JSONFeed string');
 
         $reader->createFromJson($json);
     }
@@ -73,8 +75,8 @@ JSON;
 
         $reader = new Reader([]);
 
-         $this->expectException(InvalidFeedException::class);
-         $this->expectExceptionMessage('Undefined JSONFeed version');
+        $this->expectException(InvalidFeedException::class);
+        $this->expectExceptionMessage('Undefined JSONFeed version');
 
         $reader->createFromJson($json);
     }

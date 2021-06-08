@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JDecool\Test\JsonFeed\Reader;
 
 use JDecool\JsonFeed\Reader\ReaderBuilder;

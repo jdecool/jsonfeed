@@ -10,6 +10,7 @@ return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR2' => true,
         'array_syntax' => ['syntax' => 'short'],
+        'blank_line_after_opening_tag' => true,
         'declare_strict_types' => true,
         'function_declaration' => ['closure_function_spacing' => 'none'],
         'single_import_per_statement' => false,

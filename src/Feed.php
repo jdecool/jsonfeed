@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JDecool\JsonFeed;
 
 /**
@@ -304,7 +306,7 @@ class Feed
 
     /**
      * Get endpoints that can be used to subscribe to real-time notifications from the publisher of this feed
-     * 
+     *
      * @return Hub[]
      */
     public function getHubs()
@@ -329,7 +331,7 @@ class Feed
 
     /**
      * Set endpoints that can be used to subscribe to real-time notifications from the publisher of this feed
-     * 
+     *
      * @param Hub[] $hubs
      * @return Feed
      */

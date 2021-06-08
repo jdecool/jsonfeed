@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JDecool\Test\JsonFeed\Reader\Version1;
 
 use DateTime;
@@ -177,8 +179,8 @@ JSON;
 
         $reader = FeedReader::create();
 
-         $this->expectException(InvalidFeedException::class);
-         $this->expectExceptionMessage('Invalid author property "foo"');
+        $this->expectException(InvalidFeedException::class);
+        $this->expectExceptionMessage('Invalid author property "foo"');
 
         $reader->readFromJson($input);
     }
