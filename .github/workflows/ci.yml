@@ -7,21 +7,19 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@master
-            - uses: docker://composer
+            - uses: shivammathur/setup-php@v2
               with:
-                  args: install
-            - uses: docker://php:8.0-cli-alpine
-              with:
-                  entrypoint: vendor/bin/php-cs-fixer
-                  args: fix -v --dry-run
+                  php-version: 8.1
+            - run: 'composer update --prefer-dist --no-interaction'
+            - run: vendor/bin/php-cs-fixer fix -v --dry-run
 
     tests:
         name: Tests
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                version: ['7.3', '7.4', '8.0']
-                flags: ['', '--prefer-lowest', '--prefer-stable']
+                version: ['7.3', '7.4', '8.0', '8.1', '8.2']
+                flags: ['--prefer-lowest', '--prefer-stable']
         steps:
             - uses: actions/checkout@v2
             - uses: shivammathur/setup-php@v2
